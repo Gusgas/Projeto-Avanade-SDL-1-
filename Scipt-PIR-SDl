@@ -1,0 +1,24 @@
+# Script do Sensor PIR
+
+import RPi.GPIO as GPIO    #Importamos a libraria GPIO
+import time                #Importamos time
+from time import gmtime, strftime  #importamos gmtime y strftime
+GPIO.setmode(GPIO.BCM)             #Configuramos os pinos GPIO como BCM
+PIR_PIN = 7                        #Usaremos o pino GPIO nº7
+GPIO.setup(PIR_PIN, GPIO.IN)       #Configurámo-lo como entrada
+ 
+#GPIO.setup(17, GPIO.OUT)          #Configuramos o pin 17 como saida (para um led)
+ 
+try:
+    while True:  #Iniciamos um laço infinito
+        if GPIO.input(PIR_PIN):  #Se há sinal no pino GPIO nº7
+#           GPIO.output(17,True) #Acendemos o led
+            time.sleep(1)        #Pausa de 1 segundo
+            timex = strftime("%d-%m-%Y %H:%M:%S", gmtime()) #Criamos una cadeia de texto com a hora
+            print timex + " MOVIMIENTO DETECTADO"  #Tiramo-la pelo ecrã
+            time.sleep(1)  #Pausa de 1 segundo
+#           GPIO.output(17,False)  #Apagamos o led
+        time.sleep(1)              #Pausa de 1 segundo e voltamos a começar
+except KeyboardInterrupt:   #Se o utilizador pressiona CONTROL + C...
+    print "quit"            #Anunciamos que finalizamos o script
+    GPIO.cleanup()          #Limpamos os pinos GPIO e saimos
